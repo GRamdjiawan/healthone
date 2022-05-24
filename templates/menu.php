@@ -9,7 +9,7 @@
             <a class="nav-link" href="/healthone/index.php">SportCenter</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/healthone/sportaparatuur.php">SportApparatuur</a>
+            <a class="nav-link" href="/healthone/categorieen.php">SportApparatuur</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Contact</a>

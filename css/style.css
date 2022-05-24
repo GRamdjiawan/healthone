@@ -15,7 +15,7 @@ i {
 
 .container {
     background-color: white;
-    box-shadow: 1px 1px 1px black;
+    box-shadow: 1px 1px 5px black;
 
 }
 
@@ -30,4 +30,13 @@ i {
 .categorie-items>a {
     text-decoration: none;
     color: black;
+}
+
+.product-naam {
+    text-align: center;
+}
+
+.product {
+    border: 1px solid black;
+    height: 300px;
 }

@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta naam="viewport" content="width=device-width, initial-scale=1.0">
     <title>HealthOne</title>
 
     <!-- CSS only -->
@@ -30,7 +30,7 @@
 
             echo "
                 <div class='row mt-2'>
-                    <div class='path mb-5'>
+                    <div class='path mb-2'>
                         <a href='./index.php'>Home</a> 
                         / 
                         <a href='#'>Categorie</a>
@@ -49,10 +49,10 @@
 
                 echo "<div class='col-md-3  d-flex justify-content-center align-items-center'>";
                 echo "<div class='categorie-items d-flex justify-content-center align-items-center'>";
-                echo "<a href='' class='d-flex flex-column align-items-center'>";
-                echo "<img src='./img/".$data['image']."' alt='".$data['name']."' class='img-fluid'>";
+                echo "<a href='./apparatuur.php?id=".$data['id']."' class='d-flex flex-column align-items-center'>";
+                echo "<img src='./img/".$data['foto']."' alt='".$data['naam']."' class='img-fluid'>";
 
-                echo $data['name'];
+                echo $data['naam'];
 
                 echo "</a>";
     

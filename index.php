@@ -20,7 +20,7 @@
 
 </head>
 <body>
-    <div class='container container-xxl p-2 my-5'>
+    <div class='container container-xxl p-3 my-5'>
         <?php
             include_once('./templates/header.php');
             include_once('./templates/menu.php');
