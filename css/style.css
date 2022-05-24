@@ -1,0 +1,33 @@
+body {
+    background-color: lightgrey;
+
+}
+
+/* span {
+    border: 1px solid black;
+} */
+
+i {
+    border: 1px solid black;
+    border-radius: 5px;
+
+}
+
+.container {
+    background-color: white;
+    box-shadow: 1px 1px 1px black;
+
+}
+
+.categorie-items {
+    box-sizing: border-box;
+    border: 1px solid black;
+    height: 300px;
+    width: 300px;
+
+}
+
+.categorie-items>a {
+    text-decoration: none;
+    color: black;
+}
