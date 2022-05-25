@@ -39,8 +39,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
-        
-        
+
         <link rel="stylesheet" href="./css/style.css">
         
     </head>
@@ -74,13 +73,61 @@
 
             $result = $producten->fetchAll(PDO::FETCH_ASSOC);
             foreach ($result as &$data) {
-                echo "<div class='product'>";
+                echo "<div class='product px-3'>";
                 echo "<img src='./img/".$data['foto']."' alt='".$data['naam']."' class='img-fluid'><br>";
                 echo "<h4>".$data['naam']."</h4>";
                 echo "<p>".$data['omschrijving']."</p> </a>";
                 echo "</div>";
                 
-            }   
+            }
+
+            $reviews = $db->prepare("SELECT * FROM reviews WHERE product_id = :id");
+            $reviews->bindParam("id", $_GET['id']);
+            $reviews->execute();
+
+            $result = $reviews->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($result as &$data) {
+                $userId = $data['user_id'];
+            
+    
+            }
+
+            echo "<div class='row mx-0 my-4'>";
+
+            $user = $db->prepare("SELECT * FROM user WHERE id = :id");
+            $user->bindParam("id", $userId);
+            $user->execute();
+
+            $result = $user->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($result as &$data) {
+                 
+                echo "<span class='name py-1 border border-dark bg-secondary bg-opacity-50'>".ucfirst($data['firstname'])." ".ucfirst($data['lastname']);
+                
+            }
+            
+            
+            $reviews = $db->prepare("SELECT * FROM reviews WHERE product_id = :id");
+            $reviews->bindParam("id", $_GET['id']);
+            $reviews->execute();
+
+            $result = $reviews->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($result as &$data) {
+                 
+    
+                echo " (". $data['datum'].") </span>
+                    <div class='bottom-review py-1 border-end border-bottom border-start border-dark'>
+                    <span class='bericht'>". ucfirst($data['bericht'])."</span>
+                    <br>
+                    <span class='stars'> ".$data['punten']."/5 sterren</span>
+                    </div>
+                ";
+                        
+                        
+            }
+                    
+            echo "</div>";
+        
+        
                     
             echo "<hr>";
                     

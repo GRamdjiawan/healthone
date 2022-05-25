@@ -40,3 +40,11 @@ i {
     border: 1px solid black;
     height: 300px;
 }
+
+.reviews {
+    border: 1px solid black;
+}
+
+.name {
+    background-color: lightgrey;
+}
