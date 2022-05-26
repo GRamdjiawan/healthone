@@ -1,6 +1,6 @@
 
 <?php
-    include_once('./dbConnection.php');
+    include_once('../dbConnection.php');
 
 
     $producten = $db->prepare("SELECT * FROM product WHERE id = :id");
@@ -40,21 +40,21 @@
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
 
-        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="../css/style.css">
         
     </head>
     <body>
         <div class='container container-xxl p-3 my-5'>
             <?php
             
-            include_once('./templates/header.php');
-            include_once('./templates/menu.php');
-            include_once('./templates/banner.php');
+            include_once('../templates/header.php');
+            include_once('../templates/menu.php');
+            include_once('../templates/banner.php');
             
             echo "
             <div class='row mt-2'>
                 <div class='path mb-2'>
-                    <a href='./index.php'>Home</a> 
+                    <a href='../index.php'>Home</a> 
                     / 
                     <a href='./categorieen.php'>Categorie</a>
                     /
@@ -74,7 +74,7 @@
             $result = $producten->fetchAll(PDO::FETCH_ASSOC);
             foreach ($result as &$data) {
                 echo "<div class='product px-3'>";
-                echo "<img src='./img/".$data['foto']."' alt='".$data['naam']."' class='img-fluid'><br>";
+                echo "<img src='../img/".$data['foto']."' alt='".$data['naam']."' class='img-fluid'><br>";
                 echo "<h4>".$data['naam']."</h4>";
                 echo "<p>".$data['omschrijving']."</p> </a>";
                 echo "</div>";
@@ -131,7 +131,7 @@
                     
             echo "<hr>";
                     
-            include_once('./templates/footer.php');
+            include_once('../templates/footer.php');
 
         ?> 
 

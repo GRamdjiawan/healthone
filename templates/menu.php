@@ -9,10 +9,10 @@
             <a class="nav-link" href="/healthone/index.php">SportCenter</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/healthone/categorieen.php">SportApparatuur</a>
+            <a class="nav-link" href="/healthone/apparatuur/categorieen.php">SportApparatuur</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
+            <a class="nav-link" href="/healthone/contact.php">Contact</a>
           </li>
 
        
@@ -21,7 +21,7 @@
 
         <ul class="navbar-nav ms-auto">
             <li class="nav-item ">
-              <a class="nav-link" href="#">Inloggen</a>
+              <a class="nav-link" href="/healthone/inlog/inlog.php">Inloggen</a>
             </li>
 
         </ul>

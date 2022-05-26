@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +22,11 @@
         <?php
             include_once('./templates/header.php');
             include_once('./templates/menu.php');
-            include_once('./templates/banner.php');
+            
+            echo "
+            <div class='row'>
+                <img src='./img/healthone-banner.png' class='img-fluid' alt='Health One'>
+            </div>";
 
             echo "
             <div class='row mt-2'>
