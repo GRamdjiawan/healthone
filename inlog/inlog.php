@@ -1,76 +1,67 @@
 <?php
+    session_start();
+    
+    unset($_SESSION['admin']); 
     include_once('../dbConnection.php');
     
-    
-    if(isset($_POST['registreer'])) {
-        $voornaam = strtolower($_POST['voornaam']);
-        $achternaam = strtolower($_POST['achternaam']);
+    if (isset($_POST['login'])) {
         $email = $_POST['email'];
         $wachtwoord = $_POST['wachtwoord'];
-
+        
         $gebruikerBestaat = false;
-
 
         $users = $db->prepare("SELECT * FROM user");
         $users->execute();
-    
+        
         $result = $users->fetchAll(PDO::FETCH_ASSOC);
         foreach ($result as &$data) {
 
-            if(($email == $data['email'])&&($wachtwoord == $data['password']) || ($email == $data['email']) || ($wachtwoord == $data['password'])) {
+            if (($email == $data['email'])&&($wachtwoord == $data['password'])) {
+                
                 $gebruikerBestaat = true;
-            }
-           
+                $userId = $data['id'];
+                
+                if ($data['rollen'] == 'admin') {
+                    $admin = true;
+                } else {
+                    $admin = false;
+                }
+            } 
         }
         
-        
-        if (($voornaam == '') ||($achternaam == '') ||($email == '') ||($wachtwoord == ''))  {
+        if (($email == '') ||($wachtwoord == ''))  {
             $foutmelding = 'text-danger';
             $gebruikerStatus = 'Geen ingevulde velden';
             
-        } else if ($gebruikerBestaat == true) {
-            $foutmelding = 'text-danger';
-            $gebruikerStatus = 'Deze gegevens bestaan al';
-
-            $voornaam = '';
-            $achternaam = '';
-            $email = '';
-            $wachtwoord = '';
+        } else if (($gebruikerBestaat == true)&&($admin == true)) {
+            $foutmelding = 'text-success';
+            $gebruikerStatus = 'admin';
+            
+            $_SESSION['admin'] = true;
+            
+            header("Location: ../loggedinPages/loggedin.php?id=".$userId);
+            
+        } else if (($gebruikerBestaat == true)&&($admin == false)) {
+            $foutmelding = 'text-success';
+            $gebruikerStatus = 'gebruiker';
+            
+            header("Location: ../loggedinPages/loggedin.php?id=".$userId);
+            
             
         } else{
-            $foutmelding = 'text-success';
-            $gebruikerStatus = 'Geregistreerd';
-            $rol = 'gebruiker';
-
-            $registreer = $db->prepare("INSERT INTO user (firstname, lastname, email, password, rollen) 
-            VALUES (:firstname , :lastname, :email, :password, :rollen)");
-
-            $registreer->bindParam("firstname", $voornaam);
-            $registreer->bindParam("lastname", $achternaam);
-            $registreer->bindParam("email", $email);
-            $registreer->bindParam("password", $wachtwoord);
-            $registreer->bindParam("rollen", $rol);
-
-            if($registreer->execute()) {
-                $voornaam = '';
-                $achternaam = '';
-                $email = '';
-                $wachtwoord = '';
-
-            } else {
-                echo "Er is een fout opgetreden";
-            }
-
+            $foutmelding = 'text-danger';
+            $gebruikerStatus = 'Gebruiker bestaat niet';
         }
-
+        
+        
+        
     } else {
-        $voornaam = '';
-        $achternaam = '';
         $email = '';
         $wachtwoord = '';
-
         $gebruikerStatus = '';
+        
     }
+   
 
 ?>
 
@@ -114,17 +105,18 @@
         <form action="" method="post">
             <div class="row mb-3">
                 <div class="form-floating col">
-                    <input type="email" name="email" class="form-control" id="floatingInput" placeholder="naam@email.com" value="<?php echo $email;?>">
+                    <input type="email" name="email" class="form-control" id="floatingInput" placeholder="naam@email.com" >
                     <label for="floatingInput" class="px-3">E-mailadres</label>
                 </div>
                 <div class="form-floating col">
-                    <input type="password" name="wachtwoord" class="form-control" id="floatingPassword" placeholder="Wachtwoord" value="<?php echo $wachtwoord;?>">
+                    <input type="password" name="wachtwoord" class="form-control" id="floatingPassword" placeholder="Wachtwoord" >
                     <label for="floatingPassword" class="px-3">Wachtwoord</label>
                 </div>  
 
             </div>
             
-            <button type="submit" name="login"class="btn btn-primary">Login</button>
+            <button type="submit" name="login" class="btn btn-primary mb-3">Login</button>
+            <p class="<?php echo $foutmelding;?>"><?php echo $gebruikerStatus;?></p>
             <br>
 
             <a href="./registreer.php">Registreer je hier</a>
