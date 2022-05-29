@@ -110,9 +110,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `firstname`, `lastname`, `email`, `password`, `rollen`) VALUES
-(1, 'gianni', 'ramdjiawan', 'ik@mail.com', 'jan', 'admin'),
-(4, 'gianni', 'test', 'test@test.test', 'tesT', 'gebruiker'),
-(5, 'sd', 'test', 'sd@ads.fg', 'asdasdERWR', 'gebruiker');
+
+(4, 'test', 'test', 'test@test.test', 'tesT', 'gebruiker'),
+(5, 'a', 'a', 'a@a.a', 'a', 'admin');
 
 --
 -- Indexen voor geëxporteerde tabellen
