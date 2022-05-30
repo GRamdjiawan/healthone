@@ -1,4 +1,5 @@
 <?php
+    session_start();
     include_once('../dbConnection.php');
     
     if(isset($_POST['voeg'])) {
@@ -52,6 +53,8 @@
                 $categorie = '';
                 $omschrijving = '';
                 $foto = '';
+
+
                 
             } else {
                 echo "Er is een fout opgetreden";
@@ -164,12 +167,8 @@
                 </div>";
 
             }else if($success == true) {
-                echo "
-                <div class='alert alert-success alert-dismissible fade show' role='alert'>
-                    Product toegevoegd!
-                   <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                </div>";
-
+                $_SESSION['productGevoegd'] = true;
+               header('Location: beheer.php');
             }
 
             

@@ -1,7 +1,6 @@
 <?php   
     session_start();
     include_once('../dbConnection.php');
-    $_SESSION['verwijdert'] = 0;
 
     $product = $db->prepare("SELECT * FROM product WHERE id = :id");
     $product->bindParam('id', $_GET['id']);
@@ -9,23 +8,28 @@
     $result = $product->fetchAll(PDO::FETCH_ASSOC);
     foreach ($result as &$data) {
         $naam = $data['naam'];
-
         $_SESSION['productNaam'] = $naam;
-
-        
+        $foto = $data['foto'];
     }
+
     
     if(isset($_POST['verwijder'])) {
+        // verwijdert  $foto uit de map img
+        unlink("../img/".$foto);
+    
         $delete = $db->prepare("DELETE FROM product WHERE id = :id ");
         $delete->bindParam('id', $_GET['id']);
+
         if($delete->execute()){
+
+            // error op beheer.php 
             header("Location: ./beheer.php");
+            $_SESSION['verwijdert'] = true;
         
         } else {
         }
 
     } else if(isset($_POST['back'])) {
-        $_SESSION['verwijdert'] = 1;
         header("Location: ./beheer.php");
     }
     

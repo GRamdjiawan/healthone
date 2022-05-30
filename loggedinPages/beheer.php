@@ -151,15 +151,30 @@
                 </a>
             </span>";
 
-            if($_SESSION['verwijdert'] == 1) {
+            if (isset($_SESSION['productGevoegd'])) {
+                echo"
+                    <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                        Product toegevoegd
+                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                    </div>
+                </div>";
+
+                unset($_SESSION['productGevoegd']);
+                
+            }else if($_SESSION['verwijdert']) {
+               
                 echo"
                     <div class='alert alert-danger alert-dismissible fade show' role='alert'>
                         ".$_SESSION['productNaam']." is verwijdert
-                        <button type='button' class='btn-close' data-bs-dismiss='aler' aria-label='Close'></button>
+                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                     </div>
                 </div>";
+
+                unset($_SESSION['verwijdert']);
                 
-                
+               
+            } else {
+
             }
             
             echo "<hr>";
