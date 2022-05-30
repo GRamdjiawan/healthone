@@ -1,22 +1,23 @@
 <?php
     session_start();
     include_once('../dbConnection.php');
+    $users = $db->prepare("SELECT * FROM user WHERE id = :id");
+    $users->bindParam("id", $_GET['id']);
+    $users->execute();
     
-    if(isset($_SESSION['admin'])) {
-        
-        $users = $db->prepare("SELECT * FROM user WHERE id = :id");
-        $users->bindParam("id", $_GET['id']);
-        $users->execute();
-        
-        $result = $users->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($result as &$data) {
-            $_SESSION['voornaam'] = ucfirst($data['firstname']);
-            $_SESSION['achternaam'] = ucfirst($data['lastname']);
+    $result = $users->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($result as &$data) {
+        $voornaam = ucfirst($data['firstname']);
+        $achternaam = ucfirst($data['lastname']);
+        $admin = $data['rollen'];
+
+    }
     
-        }
+    if($admin == 'admin') {
         $isAdmin = true;
         
     } else {
+        
         $isAdmin = false;
         
     }
@@ -58,13 +59,11 @@
             
             include_once('../templates/banner.php');
             
-            if ($isAdmin == true){
                 echo "
                 <div class='row mt-2'>
                     <a href='#' class='mb-5'>Home</a> 
-                    <h5>Welkom ".$_SESSION['voornaam']." ".$_SESSION['achternaam']."</h5> 
+                    <h5>Welkom ".$voornaam." ".$achternaam."</h5> 
                     <br>
-    
                 
                     <p class='text-break'>
                         Fit en gezond zijn is geen vanzelfsprekendheid.
@@ -76,10 +75,6 @@
                     </p>
                 </div>";
                 
-            } else {
-
-                
-            }
                     
             echo "<hr>";
                     

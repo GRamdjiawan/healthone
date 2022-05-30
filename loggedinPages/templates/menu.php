@@ -6,13 +6,13 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ">
           <li class="nav-item">
-            <a class="nav-link" href="#">SportCenter</a>
+            <a class="nav-link" href="/healthone/loggedinPages/loggedin.php?id=<?php echo $_GET['id'];?>">SportCenter</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">SportApparatuur</a>
+            <a class="nav-link" href="">SportApparatuur</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/healthone/loggedinPages/contact.php">Contact </a>
+            <a class="nav-link" href="/healthone/loggedinPages/contact.php?id=<?php echo $_GET['id'];?>">Contact</a>
           </li>
 
        
@@ -20,9 +20,16 @@
         </ul>
 
         <ul class="navbar-nav ms-auto">
-            <li class="nav-item ">
-              <a class="nav-link" href="#">Uitloggen</a>
-            </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-circle"></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/healthone/loggedinPages/loggedin.php?id=<?php echo $_GET['id'];?>"><strong><?php echo $voornaam." ".$achternaam;?></strong></a></li>
+            <li><a class="dropdown-item" href="/healthone/loggedinPages/profile.php?id=<?php echo $_GET['id'];?>">Profile</a></li>
+            <li><a class="dropdown-item" href="#">Uitloggen</a></li>
+          </ul>
+        </li>
 
         </ul>
        
