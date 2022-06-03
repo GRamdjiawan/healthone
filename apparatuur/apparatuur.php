@@ -28,8 +28,9 @@
             include_once('../templates/menu.php');
             include_once('../templates/banner.php');
 
+            $id = filter_input(INPUT_GET, $_GET['id'], FILTER_VALIDATE_INT);
             $categorie = $db->prepare("SELECT * FROM categorie WHERE id = :id");
-            $categorie->bindParam("id", $_GET['id']);
+            $categorie->bindParam("id", $id);
             $categorie->execute();
 
             $result = $categorie->fetchAll(PDO::FETCH_ASSOC);
@@ -49,7 +50,7 @@
 
             
             $categorie = $db->prepare("SELECT * FROM product WHERE categorie_id = :id");
-            $categorie->bindParam("id", $_GET['id']);
+            $categorie->bindParam("id", $id);
             $categorie->execute();
 
             $result = $categorie->fetchAll(PDO::FETCH_ASSOC);

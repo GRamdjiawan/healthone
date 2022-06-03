@@ -2,8 +2,9 @@
     session_start();
     include_once('../dbConnection.php');
 
+    $id = filter_input(INPUT_GET, $_GET['id'], FILTER_VALIDATE_INT);
     $user = $db->prepare("SELECT * FROM user WHERE id = :id");
-    $user->bindParam('id', $_GET['id']);
+    $user->bindParam('id', $id);
     $user->execute();
     
     $result = $user->fetchAll(PDO::FETCH_ASSOC);

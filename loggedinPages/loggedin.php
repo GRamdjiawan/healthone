@@ -1,8 +1,10 @@
 <?php
     session_start();
     include_once('../dbConnection.php');
+
+    $id = $_SESSION['loginId'];
     $users = $db->prepare("SELECT * FROM user WHERE id = :id");
-    $users->bindParam("id", $_GET['id']);
+    $users->bindParam("id", $id);
     $users->execute();
     
     $result = $users->fetchAll(PDO::FETCH_ASSOC);

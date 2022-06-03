@@ -64,7 +64,7 @@
                     <td class='border-bottom border-dark d-flex justify-content-center align-items-center'>
                         Aanpassen
                     </td>
-                    <td class='border-bottom border-dark '>
+                    <td class='border-bottom border-dark text-center'>
                         Verwijderen
                     </td>
                 </tr>";
@@ -96,13 +96,13 @@
                             </td>
 
                             <td class=' d-flex justify-content-center align-items-center'>
-                                <a href='./editProduct.php?id=".$data['id']."' class='link-success border border-dark px-2'> 
+                                <a href='./editProduct.php?id=".$data['id']."' class='btn btn-success border border-dark px-2'> 
                                     <i class='bi bi-pencil-fill' ></i> 
                                 </a>
                             </td>
                             
-                            <td class=''>
-                                <a href='./deleteProduct.php?id=".$data['id']."' class='link-danger border border-dark px-2'> 
+                            <td class='text-center'>
+                                <a href='./deleteProduct.php?id=".$data['id']."' class='btn btn-danger border border-dark px-2'> 
                                     <i class='bi bi-trash3-fill'></i>
                                 </a>
                             </td>
@@ -125,13 +125,13 @@
                             </td>
 
                             <td class=' d-flex justify-content-center align-items-center'>
-                                <a href='./editProduct.php?id=".$data['id']."' class='link-success border border-dark px-2'> 
+                                <a href='./editProduct.php?id=".$data['id']."' class='btn btn-success border border-dark px-2'> 
                                     <i class='bi bi-pencil-fill' ></i> 
                                 </a>
                             </td>
 
-                            <td class=''>
-                                <a href='./deleteProduct.php?id=".$data['id']."' class='link-danger border border-dark px-2'> 
+                            <td class='text-center'>
+                                <a href='./deleteProduct.php?id=".$data['id']."' class='btn btn-danger border border-dark px-2'> 
                                     <i class='bi bi-trash3-fill'></i>
                                 </a>
                             </td>
@@ -146,7 +146,7 @@
             echo "
             </table> 
             <span class='my-3'>
-                <a href='./addProduct.php' class='link-success border border-dark px-2 '>
+                <a href='./addProduct.php' class='btn btn-success border border-dark px-2 '>
                     <i class='bi bi-plus-square-fill'></i>
                 </a>
             </span>";

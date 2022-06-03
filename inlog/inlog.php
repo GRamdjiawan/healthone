@@ -3,6 +3,9 @@
     
     unset($_SESSION['admin']); 
     include_once('../dbConnection.php');
+
+    unset($_SESSION['firstname']);
+    unset($_SESSION['lastname']);
     
     if (isset($_POST['login'])) {
         $email = $_POST['email'];
@@ -17,38 +20,38 @@
         foreach ($result as &$data) {
 
             if (($email == $data['email'])&&($wachtwoord == $data['password'])) {
+                $_SESSION['firstname'] = $data['firstname'];
+                $_SESSION['lastname'] = $data['lastname'];
                 
                 $gebruikerBestaat = true;
                 $userId = $data['id'];
                 
+
                 if ($data['rollen'] == 'admin') {
                     $admin = true;
+                    $_SESSION['admin'] = true;
+                    $_SESSION['loginId'] = $data['id'];
+
+
                 } else {
                     $admin = false;
+
                 }
-            } 
+            }  
         }
         
         if (($email == '') ||($wachtwoord == ''))  {
             $foutmelding = 'text-danger';
             $gebruikerStatus = 'Geen ingevulde velden';
             
-        } else if (($gebruikerBestaat == true)&&($admin == true)) {
+        } else if (($gebruikerBestaat == true)) {
             $foutmelding = 'text-success';
-            $gebruikerStatus = 'admin';
-            
-            $_SESSION['admin'] = true;
-            
-            header("Location: ../loggedinPages/loggedin.php?id=".$userId);
-            
-        } else if (($gebruikerBestaat == true)&&($admin == false)) {
-            $foutmelding = 'text-success';
-            $gebruikerStatus = 'gebruiker';
-            
-            header("Location: ../loggedinPages/loggedin.php?id=".$userId);
+            $gebruikerStatus = 'Ingelogd';
             
             
-        } else{
+            header("Location: ../loggedinPages/loggedin.php");
+            
+        }else{
             $foutmelding = 'text-danger';
             $gebruikerStatus = 'Gebruiker bestaat niet';
         }

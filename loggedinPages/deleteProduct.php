@@ -2,8 +2,9 @@
     session_start();
     include_once('../dbConnection.php');
 
+    $id = filter_input(INPUT_GET, $_GET['id'], FILTER_VALIDATE_INT);
     $product = $db->prepare("SELECT * FROM product WHERE id = :id");
-    $product->bindParam('id', $_GET['id']);
+    $product->bindParam('id', $id);
     $product->execute();
     $result = $product->fetchAll(PDO::FETCH_ASSOC);
     foreach ($result as &$data) {
@@ -18,7 +19,7 @@
         unlink("../img/".$foto);
     
         $delete = $db->prepare("DELETE FROM product WHERE id = :id ");
-        $delete->bindParam('id', $_GET['id']);
+        $delete->bindParam('id', $id);
 
         if($delete->execute()){
 

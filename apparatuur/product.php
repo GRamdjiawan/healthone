@@ -2,9 +2,9 @@
 <?php
     include_once('../dbConnection.php');
 
-
+    $id = filter_input(INPUT_GET, $_GET['id'], FILTER_VALIDATE_INT);
     $producten = $db->prepare("SELECT * FROM product WHERE id = :id");
-    $producten->bindParam("id", $_GET['id']);
+    $producten->bindParam("id", $id);
     $producten->execute();
 
     $result = $producten->fetchAll(PDO::FETCH_ASSOC);
@@ -15,7 +15,7 @@
     }   
 
     $categorie = $db->prepare("SELECT * FROM categorie WHERE id = :id");
-    $categorie->bindParam("id", $_GET['id']);
+    $categorie->bindParam("id", $id);
     $categorie->execute();
 
     $result = $categorie->fetchAll(PDO::FETCH_ASSOC);
@@ -68,7 +68,7 @@
             
 
             $producten = $db->prepare("SELECT * FROM product WHERE categorie_id = :id");
-            $producten->bindParam("id", $_GET['id']);
+            $producten->bindParam("id", $id);
             $producten->execute();
 
             $result = $producten->fetchAll(PDO::FETCH_ASSOC);
@@ -82,7 +82,7 @@
             }
 
             $reviews = $db->prepare("SELECT * FROM reviews WHERE product_id = :id");
-            $reviews->bindParam("id", $_GET['id']);
+            $reviews->bindParam("id", $id);
             $reviews->execute();
 
             $result = $reviews->fetchAll(PDO::FETCH_ASSOC);
@@ -107,7 +107,7 @@
             
             
             $reviews = $db->prepare("SELECT * FROM reviews WHERE product_id = :id");
-            $reviews->bindParam("id", $_GET['id']);
+            $reviews->bindParam("id", $id);
             $reviews->execute();
 
             $result = $reviews->fetchAll(PDO::FETCH_ASSOC);
