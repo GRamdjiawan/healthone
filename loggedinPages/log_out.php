@@ -1,29 +1,29 @@
 <?php
     session_start();
     include_once('../dbConnection.php');
-    $id = $_SESSION['loggedIn'];
 
-    if(isset($id)) {
+    if(isset($_SESSION['loggedIn'])){
+        if(isset($_POST["ja"])){
+            session_destroy();
+            header("Location: ../index.php");
+        }
+        $id = $_SESSION['loggedIn'];
         $users = $db->prepare("SELECT * FROM user WHERE id = :id");
         $users->bindParam("id", $id);
         $users->execute();
         $data = $users->fetchAll(PDO::FETCH_ASSOC);
-        $voornaam = ucfirst($data[0]['firstname']);
-        $achternaam = ucfirst($data[0]['lastname']);
         $admin = $data[0]['rollen'];
-        
         if($admin == 'admin') {
             $isAdmin = true;
         } else {
             $isAdmin = false;
         }
-        
     } else {
         $_SESSION['failedlLogin'] = true;
         header("Location: ../index.php");
     }
 
-        
+
 ?>
 
 <!DOCTYPE html>
@@ -51,6 +51,7 @@
             include_once('../templates/header.php');
 
             if ($isAdmin == true){
+                
         ?>
 
         <nav class="navbar navbar-expand-lg bg-light p-2">
@@ -67,37 +68,34 @@
                     <a class="nav-link" href="./admin/beheer.php">Beheer</a>
                 </li>
                 </ul>
-
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item ">
-                    <a class="nav-link" href="./log_out.php">Admin Uitloggen</a>
+                    <a class="nav-link" href="#">Admin Uitloggen</a>
                     </li>
-
                 </ul>
-            
-            
             </div>
         </nav>
-
+        
         <?php
-                
             } else {
                 include_once('./templates/menu.php');
             }
             include_once('../templates/banner.php');
         ?>
-        <div class='row mt-2'>
-            <a href='#' class='mb-5'>Home</a> 
-            <h5>Welkom <?= $voornaam?>  <?= $achternaam?></h5> 
-            <br>
-            <p class='text-break'>
-                Fit en gezond zijn is geen vanzelfsprekendheid.
-                We moeten er zelf wat voor doen. Goede, gezonde voeding is hiervoor de basis
-                Bewegen hoort hier ook bij. Regelmatig bewegen zorgt voor een goede doorbloeding en 
-                draagt bij aan ontspanning van lichaam en geest.
-                Sporten is goed voor sterkere spieren en voor de conditie. Sportcenter Health One
-                heeft verschillende sportapparaten om mee te kunnen werken aan je conditie. 
-            </p>
+        <div class='row mt-2 text-center'>
+            <div class='path mb-2 text-start'>
+                <a href='./loggedIn.php'>Home</a> 
+                / 
+                <a href='#'>log out</a>
+            </div>
+            <h3>Wilt u uitloggen?</h3>
+            <form action="" method="post" class="row">
+                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                    <button type="submit" name="ja" class="btn btn-success">Ja</button>
+                    <a href="./loggedIn.php" class="btn btn-danger">Nee</a>
+                </div>
+
+            </form>
         </div>
         <hr>
         <?php        

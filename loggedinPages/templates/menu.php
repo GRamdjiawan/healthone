@@ -25,9 +25,9 @@
             <i class="bi bi-person-circle"></i>
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="/healthone/loggedinPages/loggedin.php?id=<?php echo $_GET['id'];?>"><strong><?php echo $voornaam." ".$achternaam;?></strong></a></li>
-            <li><a class="dropdown-item" href="/healthone/loggedinPages/profile.php?id=<?php echo $_GET['id'];?>">Profile</a></li>
-            <li><a class="dropdown-item" href="#">Uitloggen</a></li>
+            <li><a class="dropdown-item" href="./loggedin.php"><strong><?php echo $voornaam." ".$achternaam;?></strong></a></li>
+            <li><a class="dropdown-item" href="./profile.php">Profile</a></li>
+            <li><a class="dropdown-item" href="./log_out.php">Uitloggen</a></li>
           </ul>
         </li>
 

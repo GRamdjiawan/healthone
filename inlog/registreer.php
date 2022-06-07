@@ -3,45 +3,64 @@
     
     
     if(isset($_POST['registreer'])) {
-        $voornaam = strtolower($_POST['voornaam']);
-        $achternaam = strtolower($_POST['achternaam']);
-        $email = $_POST['email'];
-        $wachtwoord = $_POST['wachtwoord'];
+        $filterVoornaam = filter_input(INPUT_POST, "voornaam");
+        $filterAchternaam = filter_input(INPUT_POST, "achternaam");
+        $voornaam = strtolower($filterVoornaam);
+        $achternaam = strtolower($filterAchternaam);
+        $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
+        $wachtwoord1 = filter_input(INPUT_POST, "wachtwoord1");
+        $wachtwoord2 = filter_input(INPUT_POST, "wachtwoord2");
+
+        if($wachtwoord1 == $wachtwoord2) {
+            $wachtwoord = $wachtwoord1;
+            $wachtwoordStatus = true;
+        } else {
+            $wachtwoordStatus = false;
+        }
 
         $gebruikerBestaat = false;
-
-
         $users = $db->prepare("SELECT * FROM user");
         $users->execute();
-    
-        $result = $users->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($result as &$data) {
-
-            if(($email == $data['email'])&&($wachtwoord == $data['password']) || ($email == $data['email']) || ($wachtwoord == $data['password'])) {
+        $allUsers = $users->fetchAll(PDO::FETCH_ASSOC);
+        foreach($allUsers as $data){
+            if($email == $data['email']) {
                 $gebruikerBestaat = true;
             }
-           
         }
-        
-        
-        if (($voornaam == '') ||($achternaam == '') ||($email == '') ||($wachtwoord == ''))  {
-            $foutmelding = 'text-danger';
+
+        if (($voornaam == '') ||($achternaam == '') ||($email == '') ||($wachtwoord1 == '')||($wachtwoord2 == ''))  {
+            $foutmelding = 'danger';
             $gebruikerStatus = 'Geen ingevulde velden';
             
-        } else if ($gebruikerBestaat == true) {
-            $foutmelding = 'text-danger';
-            $gebruikerStatus = 'Deze gegevens bestaan al';
+            $voornaam = '';
+            $achternaam = '';
+            $email = '';
+            $wachtwoord1 = '';
+            $wachtwoord2 = '';
+        } else if (!$wachtwoordStatus) {
+            $foutmelding = 'danger';
+            $gebruikerStatus = 'Wachtwoorden komen niet overeen';
 
+            $wachtwoord = '';
+            $wachtwoord1 = '';
+            $wachtwoord2 = '';
+            
+        }else if ($gebruikerBestaat == true) {
+            $foutmelding = 'danger';
+            $gebruikerStatus = 'Deze gegevens bestaan al';
+            
             $voornaam = '';
             $achternaam = '';
             $email = '';
             $wachtwoord = '';
+            $wachtwoord1 = '';
+            $wachtwoord2 = '';
             
         } else{
-            $foutmelding = 'text-success';
+            $foutmelding = 'success';
             $gebruikerStatus = 'Geregistreerd';
             $rol = 'gebruiker';
-
+            
             $registreer = $db->prepare("INSERT INTO user (firstname, lastname, email, password, rollen) 
             VALUES (:firstname , :lastname, :email, :password, :rollen)");
 
@@ -56,19 +75,23 @@
                 $achternaam = '';
                 $email = '';
                 $wachtwoord = '';
-
+                $wachtwoord1 = '';
+                $wachtwoord2 = '';
+                
             } else {
                 echo "Er is een fout opgetreden";
             }
 
-        }
+            }
 
     } else {
         $voornaam = '';
         $achternaam = '';
         $email = '';
         $wachtwoord = '';
-
+        $wachtwoord1 = '';
+        $wachtwoord2 = '';
+        
         $gebruikerStatus = '';
     }
 
@@ -130,16 +153,25 @@
                     <input type="email" name="email" class="form-control" id="floatingInput" placeholder="naam@email.com" value="<?php echo $email;?>">
                     <label for="floatingInput" class="px-3">E-mailadres</label>
                 </div>
+            </div>
+            <div class="row mb-3">
                 <div class="form-floating col">
-                    <input type="password" name="wachtwoord" class="form-control" id="floatingPassword" placeholder="Wachtwoord" value="<?php echo $wachtwoord;?>">
+                    <input type="password" name="wachtwoord1" class="form-control" id="floatingPassword" placeholder="Wachtwoord" value="<?php echo $wachtwoord;?>">
                     <label for="floatingPassword" class="px-3">Wachtwoord</label>
                 </div>  
-
+                <div class="form-floating col">
+                    <input type="password" name="wachtwoord2" class="form-control" id="floatingPassword" placeholder="Wachtwoord" value="<?php echo $wachtwoord;?>">
+                    <label for="floatingPassword" class="px-3">Herhaal uw wachtwoord</label>
+                </div>  
             </div>
             
             <button type="submit" name="registreer"class="btn btn-primary">Registreer</button>
             <br>
-            <p class="<?php echo $foutmelding;?>"><?php echo $gebruikerStatus;?></p>
+
+            <div class='alert alert-<?= $foutmelding?> alert-dismissible fade show' role='alert'>
+                <?= $gebruikerStatus?>
+                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            </div>
 
             <a href="./inlog.php">Login</a>
             

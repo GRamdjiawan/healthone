@@ -1,53 +1,39 @@
 <?php
     session_start();
-    
-    unset($_SESSION['admin']); 
     include_once('../dbConnection.php');
-
-    unset($_SESSION['firstname']);
-    unset($_SESSION['lastname']);
+    
     
     if (isset($_POST['login'])) {
-        $email = $_POST['email'];
+        $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
         $wachtwoord = $_POST['wachtwoord'];
         
-        $gebruikerBestaat = false;
-
-        $users = $db->prepare("SELECT * FROM user");
+        
+        $users = $db->prepare("SELECT * FROM user WHERE email = :email AND password = :password");
+        $users->bindParam("password", $wachtwoord);
+        $users->bindParam("email", $email);
         $users->execute();
         
-        $result = $users->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($result as &$data) {
-
-            if (($email == $data['email'])&&($wachtwoord == $data['password'])) {
-                $_SESSION['firstname'] = $data['firstname'];
-                $_SESSION['lastname'] = $data['lastname'];
-                
-                $gebruikerBestaat = true;
-                $userId = $data['id'];
-                
-
-                if ($data['rollen'] == 'admin') {
-                    $admin = true;
-                    $_SESSION['admin'] = true;
-                    $_SESSION['loginId'] = $data['id'];
+        $data = $users->fetch(PDO::FETCH_ASSOC);
+        
+        if (!$data) {
+            $gebruikerBestaat = false;
 
 
-                } else {
-                    $admin = false;
+            
+        }  else {
+            $gebruikerBestaat = true;
+            $_SESSION['loggedIn'] = $data['id'];
 
-                }
-            }  
+
         }
         
         if (($email == '') ||($wachtwoord == ''))  {
             $foutmelding = 'text-danger';
             $gebruikerStatus = 'Geen ingevulde velden';
             
-        } else if (($gebruikerBestaat == true)) {
+        } else if (($gebruikerBestaat)) {
             $foutmelding = 'text-success';
             $gebruikerStatus = 'Ingelogd';
-            
             
             header("Location: ../loggedinPages/loggedin.php");
             
@@ -55,8 +41,6 @@
             $foutmelding = 'text-danger';
             $gebruikerStatus = 'Gebruiker bestaat niet';
         }
-        
-        
         
     } else {
         $email = '';
@@ -93,17 +77,15 @@
             include_once('../templates/header.php');
             include_once('../templates/menu.php');
             include_once('../templates/banner.php');
-
-            echo "
-                <div class='row mt-2'>
-                    <div class='path mb-2'>
-                        <a href='../index.php'>Home</a> 
-                        / 
-                        <a href='#'>Inloggen</a>
-                    </div>
-                </div>
-            ";
         ?>
+
+        <div class='row mt-2'>
+            <div class='path mb-2'>
+                <a href='../index.php'>Home</a> 
+                / 
+                <a href='#'>Inloggen</a>
+            </div>
+        </div>
 
         <form action="" method="post">
             <div class="row mb-3">
@@ -119,6 +101,7 @@
             </div>
             
             <button type="submit" name="login" class="btn btn-primary mb-3">Login</button>
+            
             <p class="<?php echo $foutmelding;?>"><?php echo $gebruikerStatus;?></p>
             <br>
 

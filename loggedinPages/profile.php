@@ -2,20 +2,24 @@
     session_start();
     include_once('../dbConnection.php');
 
-    $id = filter_input(INPUT_GET, $_GET['id'], FILTER_VALIDATE_INT);
-    $user = $db->prepare("SELECT * FROM user WHERE id = :id");
-    $user->bindParam('id', $id);
-    $user->execute();
-    
-    $result = $user->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($result as &$data) {
+    $id = $_SESSION['loggedIn'];
+
+    if(isset($id)) {
+
+        $user = $db->prepare("SELECT * FROM user WHERE id = :id");
+        $user->bindParam('id', $id);
+        $user->execute();
+        $data = $user->fetch(PDO::FETCH_ASSOC);
         $voornaam = $data['firstname'];
         $achternaam = $data['lastname'];
         $email = $data['email'];
         $wachtwoord = $data['password'];
-
-    
+    } else {
+        
+        $_SESSION['failedlLogin'] = true;
+        header("Location: ../index.php");
     }
+    
     
 ?>
 

@@ -6,7 +6,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ">
           <li class="nav-item">
-            <a class="nav-link" href="./loggedin.php">SportCenter</a>
+            <a class="nav-link" href="../loggedin.php">SportCenter</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="./beheer.php">Beheer</a>
@@ -15,7 +15,7 @@
 
         <ul class="navbar-nav ms-auto">
             <li class="nav-item ">
-              <a class="nav-link" href="#">Admin Uitloggen</a>
+              <a class="nav-link" href="../log_out.php">Admin Uitloggen</a>
             </li>
 
         </ul>

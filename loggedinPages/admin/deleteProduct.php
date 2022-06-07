@@ -1,37 +1,43 @@
 <?php   
     session_start();
-    include_once('../dbConnection.php');
-
-    $id = filter_input(INPUT_GET, $_GET['id'], FILTER_VALIDATE_INT);
-    $product = $db->prepare("SELECT * FROM product WHERE id = :id");
-    $product->bindParam('id', $id);
-    $product->execute();
-    $result = $product->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($result as &$data) {
-        $naam = $data['naam'];
-        $_SESSION['productNaam'] = $naam;
-        $foto = $data['foto'];
-    }
-
+    include_once('../../dbConnection.php');
     
-    if(isset($_POST['verwijder'])) {
-        // verwijdert  $foto uit de map img
-        unlink("../img/".$foto);
-    
-        $delete = $db->prepare("DELETE FROM product WHERE id = :id ");
-        $delete->bindParam('id', $id);
-
-        if($delete->execute()){
-
-            // error op beheer.php 
-            header("Location: ./beheer.php");
-            $_SESSION['verwijdert'] = true;
+    if(isset($_SESSION['loggedIn'])){
         
-        } else {
+        $id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+        $product = $db->prepare("SELECT * FROM product WHERE id = :id");
+        $product->bindParam('id', $id);
+        $product->execute();
+        $result = $product->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($result as &$data) {
+            $naam = $data['naam'];
+            $_SESSION['productNaam'] = $naam;
+            $foto = $data['foto'];
         }
-
-    } else if(isset($_POST['back'])) {
-        header("Location: ./beheer.php");
+        
+        
+        if(isset($_POST['verwijder'])) {
+            // verwijdert  $foto uit de map img
+            unlink("../../img/".$foto);
+            
+            $delete = $db->prepare("DELETE FROM product WHERE id = :id ");
+            $delete->bindParam('id', $id);
+            
+            if($delete->execute()){
+                
+                // error op beheer.php 
+                header("Location: ./beheer.php");
+                $_SESSION['verwijdert'] = true;
+                
+            } else {
+            }
+            
+        } else if(isset($_POST['back'])) {
+            header("Location: ./beheer.php");
+        }
+    } else {
+        $_SESSION['failedlLogin'] = true;
+        header("Location: ../../index.php");
     }
     
     
@@ -53,16 +59,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
 
 
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../../css/style.css">
 
 </head>
 
 <body>
     <div class='container container-xxl p-3 my-5'>
         <?php
-            include_once('../templates/header.php');
+            include_once('../../templates/header.php');
             
-            include_once('./templates/adminMenu.php');
+            include_once('../templates/adminMenu.php');
                 
             
             include_once('../templates/banner.php');
@@ -89,7 +95,7 @@
             
             echo "<hr>";
             
-            include_once('../templates/footer.php');
+            include_once('../../templates/footer.php');
             
         ?> 
 

@@ -1,3 +1,17 @@
+<?php   
+    session_start();
+    include_once('../dbConnection.php');
+    
+    if(isset($_SESSION['loggedIn'])){
+   
+    } else {
+        $_SESSION['failedlLogin'] = true;
+        header("Location: ../index.php");
+    }
+    
+    
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

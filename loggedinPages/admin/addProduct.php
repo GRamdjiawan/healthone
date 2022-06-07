@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include_once('../dbConnection.php');
+    include_once('../../dbConnection.php');
     
     if(isset($_POST['voeg'])) {
         $productBestaat = false;
@@ -94,16 +94,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
 
 
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../../css/style.css">
 
 </head>
 
 <body>
     <div class='container container-xxl p-3 my-5'>
         <?php
-            include_once('../templates/header.php');
+            include_once('../../templates/header.php');
             
-            include_once('./templates/adminMenu.php');
+            include_once('../templates/adminMenu.php');
                 
             
             include_once('../templates/banner.php');
@@ -171,10 +171,9 @@
                header('Location: beheer.php');
             }
 
-            
             echo "<hr>";
             
-            include_once('../templates/footer.php');
+            include_once('../../templates/footer.php');
             
         ?> 
 
