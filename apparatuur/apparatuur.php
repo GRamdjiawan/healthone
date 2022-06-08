@@ -28,12 +28,12 @@
             include_once('../templates/menu.php');
             include_once('../templates/banner.php');
 
-            $id = filter_input(INPUT_GET, $_GET['id'], FILTER_VALIDATE_INT);
+            $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
             $categorie = $db->prepare("SELECT * FROM categorie WHERE id = :id");
             $categorie->bindParam("id", $id);
             $categorie->execute();
-
             $result = $categorie->fetchAll(PDO::FETCH_ASSOC);
+            
             foreach ($result as &$data) {
                 echo "
                 <div class='row mt-2'>
@@ -47,29 +47,22 @@
                 </div>
             ";
             }
-
-            
             $categorie = $db->prepare("SELECT * FROM product WHERE categorie_id = :id");
             $categorie->bindParam("id", $id);
             $categorie->execute();
-
             $result = $categorie->fetchAll(PDO::FETCH_ASSOC);
             foreach ($result as &$data) {
-                echo "<div class='categorie-items d-flex justify-content-center align-items-center'>";
-                echo "<a href='./product.php?id=".$data['id']."' class='d-flex flex-column align-items-center'>";
-                echo "<img src='../img/".$data['foto']."' alt='".$data['naam']."' class='img-fluid'>";
-    
-                echo "<span class='product-naam'>".$data['naam']."</span>";
-    
-                echo "</a>";
-    
-                echo "</div>";
+        ?>
+        <div class='categorie-items d-flex justify-content-center align-items-center'>
+            <a href='./product.php?id=<?=$data['id']?>' class='d-flex flex-column align-items-center'>
+                <img src='../img/<?=$data['foto']?>' alt='<?=$data['naam']?>' class='img-fluid'>
+                <span class='product-naam'><?=$data['naam']?></span>
+            </a>
+        </div>
+        <?php
             }  
-                    
             echo "<hr>";
-                    
             include_once('../templates/footer.php');
-
         ?> 
 
     </div>  

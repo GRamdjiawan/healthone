@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include_once('../dbConnection.php');
+    include_once('../../dbConnection.php');
 
     $id = $_SESSION['loggedIn'];
 
@@ -13,7 +13,33 @@
         $voornaam = $data['firstname'];
         $achternaam = $data['lastname'];
         $email = $data['email'];
-        $wachtwoord = $data['password'];
+
+        if(isset($_POST['editProfile'])) {
+            $editVoornaam = filter_input(INUPT_POST, 'voornaam');
+            $editAchternaam = filter_input(INUPT_POST, 'achternaam');
+            $editEmail = filter_input(INUPT_POST, 'email', FILTER_VALIDATE_EMAIL);
+
+            $updateUser = $db->prepare("UPDATE user SET firstname = :voornaam, lastname = :achternaam, email = :email");                                                                                                                       
+            $updateUser->bindParam('voornaam', $editVoornaam);
+            $updateUser->bindParam('achternaam', $editAchternaam);
+            $updateUser->bindParam('email', $editEmail);
+
+            if($updateUser->execute()) {
+                // $editAchternaam = '';
+                // $editVoornaam = '';
+                // $editEmail = '';
+                $status = "Gegevens gewijzigd";
+                $color = "success";
+            } else {
+                $status = "Er is een fout opgetreden";
+                $color = "danger";
+                
+            }
+        
+        }
+
+
+
     } else {
         
         $_SESSION['failedlLogin'] = true;
@@ -39,64 +65,27 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
 
 
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../../css/style.css">
 
 </head>
 
 <body>
     <div class='container container-xxl p-3 my-5'>
         <?php
-            include_once('../templates/header.php');
+            include_once('../../templates/header.php');
             
-            include_once('./templates/menu.php');
+            include_once('../templates/menu.php');
                 
             
             include_once('../templates/banner.php');
             
         ?> 
 
-        <div class="row my-3 border-bottom border-dark">
-            <div class="col-md-2">
-                Email:
-            </div>
-            <div class="col-md-4">
-                <b><?=$email?></b>
-            </div>
-            <div class="col-md-6">
 
-            </div>
-        </div>
-        <div class="row my-3 border-bottom border-dark">
-            <div class="col-md-2">
-                Voornaam:
-            </div>
-            <div class="col-md-4">
-                <b><?=$voornaam?></b>
-            </div>
-            <div class="col-md-6">
-
-            </div>
-        </div>
-        <div class="row my-3 border-bottom border-dark">
-            <div class="col-md-2">
-                Achternaam:
-            </div>
-            <div class="col-md-4">
-                <b><?=$achternaam?></b>
-            </div>
-            <div class="col-md-6">
-
-            </div>
-        </div>
-
-        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-            <a href="./profile/edit_profile.php" class="btn btn-success">Profile aanpassen</a>
-            <a href="" class="btn btn-danger">Wachtwoord aanpassen</a>
-        </div>
        
 
-        <!-- <form action="" method="post">
-            <div class="row mb-3">
+        <form action="" method="post">
+            <div class="row my-3">
                 <div class="form-floating col">
                     <input type="text" name="voornaam" class="form-control" id="floatingInput" placeholder="Kees" value="<?php echo $voornaam;?>">
                     <label for="floatingInput" class="px-3">Voornaam</label>
@@ -108,27 +97,40 @@
 
             </div>
             <div class="row mb-3">
-                <div class="form-floating col">
+                <div class="form-floating ">
                     <input type="email" name="email" class="form-control" id="floatingInput" placeholder="naam@email.com" value="<?php echo $email;?>">
                     <label for="floatingInput" class="px-3">E-mailadres</label>
                 </div>
-                <div class="form-floating col">
-                    <input type="password" name="wachtwoord" class="form-control" id="floatingPassword" placeholder="Wachtwoord" value="<?php echo $wachtwoord;?>">
-                    <label for="floatingPassword" class="px-3">Wachtwoord</label>
-                </div>  
-
+               
             </div>
+
+            <?php
+                if(isset($status)) {
+                    echo"
+                    <div class='alert alert-".$color." alert-dismissible fade show' role='alert'>
+                        ".$status."
+                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                    </div>";
+                }
             
-            <button type="submit" name="registreer"class="btn btn-primary"></button>
+            
+            ?>            
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                <button href="../profile.php" class="btn btn-danger">
+                    <i class="bi bi-arrow-left"></i>
+                </button>
 
-        </form> -->
+                <button type="submit" name="editProfile"class="btn btn-success">
+                    <i class="bi bi-pencil-fill"></i>   
+                </button>
+            </div>
+        </form>
 
+        <hr>
         <?php
           
             
-            echo "<hr>";
-            
-            include_once('../templates/footer.php');
+            include_once('../../templates/footer.php');
             
         ?> 
 

@@ -2,7 +2,7 @@
 <?php
     include_once('../dbConnection.php');
 
-    $id = filter_input(INPUT_GET, $_GET['id'], FILTER_VALIDATE_INT);
+    $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
     $producten = $db->prepare("SELECT * FROM product WHERE id = :id");
     $producten->bindParam("id", $id);
     $producten->execute();
