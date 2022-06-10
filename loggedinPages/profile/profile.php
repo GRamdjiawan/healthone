@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include_once('../dbConnection.php');
+    include_once('../../dbConnection.php');
 
     $id = $_SESSION['loggedIn'];
 
@@ -17,7 +17,7 @@
     } else {
         
         $_SESSION['failedlLogin'] = true;
-        header("Location: ../index.php");
+        header("Location: ../../index.php");
     }
     
     
@@ -39,16 +39,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
 
 
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../../css/style.css">
 
 </head>
 
 <body>
     <div class='container container-xxl p-3 my-5'>
         <?php
-            include_once('../templates/header.php');
+            include_once('../../templates/header.php');
             
-            include_once('./templates/menu.php');
+            include_once('../templates/profileMenu.php');
                 
             
             include_once('../templates/banner.php');
@@ -90,7 +90,7 @@
         </div>
 
         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-            <a href="./profile/edit_profile.php" class="btn btn-success">Profile aanpassen</a>
+            <a href="./edit_profile.php" class="btn btn-success">Profile aanpassen</a>
             <a href="" class="btn btn-danger">Wachtwoord aanpassen</a>
         </div>
        
@@ -128,7 +128,7 @@
             
             echo "<hr>";
             
-            include_once('../templates/footer.php');
+            include_once('../../templates/footer.php');
             
         ?> 
 

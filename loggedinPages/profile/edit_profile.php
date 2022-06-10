@@ -13,24 +13,35 @@
         $voornaam = $data['firstname'];
         $achternaam = $data['lastname'];
         $email = $data['email'];
-
+        
         if(isset($_POST['editProfile'])) {
-            $editVoornaam = filter_input(INUPT_POST, 'voornaam');
-            $editAchternaam = filter_input(INUPT_POST, 'achternaam');
-            $editEmail = filter_input(INUPT_POST, 'email', FILTER_VALIDATE_EMAIL);
-
-            $updateUser = $db->prepare("UPDATE user SET firstname = :voornaam, lastname = :achternaam, email = :email");                                                                                                                       
+            $editVoornaam = filter_input(INPUT_POST, 'voornaam', FILTER_SANITIZE_STRING);
+            $editAchternaam = filter_input(INPUT_POST, 'achternaam', FILTER_SANITIZE_STRING);
+            $editEmail = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+            
+            $updateUser = $db->prepare("UPDATE user SET firstname = :voornaam, lastname = :achternaam, email = :email WHERE id = :id");                                                                                                                       
+            $updateUser->bindParam('id', $id);
             $updateUser->bindParam('voornaam', $editVoornaam);
             $updateUser->bindParam('achternaam', $editAchternaam);
             $updateUser->bindParam('email', $editEmail);
-
+            
             if($updateUser->execute()) {
-                // $editAchternaam = '';
-                // $editVoornaam = '';
-                // $editEmail = '';
+                $user = $db->prepare("SELECT * FROM user WHERE id = :id");
+                $user->bindParam('id', $id);
+                $user->execute();
+                $data = $user->fetch(PDO::FETCH_ASSOC);
+                $voornaam = $data['firstname'];
+                $achternaam = $data['lastname'];
+                $email = $data['email'];
+                
                 $status = "Gegevens gewijzigd";
                 $color = "success";
+                
             } else {
+                $editAchternaam = $achternaam;
+                $editVoornaam = $voornaam;
+                $editEmail = $email;
+
                 $status = "Er is een fout opgetreden";
                 $color = "danger";
                 
@@ -41,7 +52,6 @@
 
 
     } else {
-        
         $_SESSION['failedlLogin'] = true;
         header("Location: ../index.php");
     }
@@ -74,7 +84,7 @@
         <?php
             include_once('../../templates/header.php');
             
-            include_once('../templates/menu.php');
+            include_once('../templates/profileMenu.php');
                 
             
             include_once('../templates/banner.php');
@@ -87,18 +97,18 @@
         <form action="" method="post">
             <div class="row my-3">
                 <div class="form-floating col">
-                    <input type="text" name="voornaam" class="form-control" id="floatingInput" placeholder="Kees" value="<?php echo $voornaam;?>">
+                    <input type="text" name="voornaam" class="form-control" id="floatingInput" placeholder="Kees" value="<?= $voornaam?>">
                     <label for="floatingInput" class="px-3">Voornaam</label>
                 </div>
+
                 <div class="form-floating col">
-                    <input type="text" name="achternaam" class="form-control" id="floatingPassword" placeholder="de Bakker" value="<?php echo $achternaam;?>">
+                    <input type="text" name="achternaam" class="form-control" id="floatingPassword" placeholder="de Bakker" value="<?= $achternaam?>">
                     <label for="floatingPassword" class="px-3">Achternaam</label>
                 </div>  
-
             </div>
             <div class="row mb-3">
                 <div class="form-floating ">
-                    <input type="email" name="email" class="form-control" id="floatingInput" placeholder="naam@email.com" value="<?php echo $email;?>">
+                    <input type="email" name="email" class="form-control" id="floatingInput" placeholder="naam@email.com" value="<?= $email?>">
                     <label for="floatingInput" class="px-3">E-mailadres</label>
                 </div>
                
@@ -116,7 +126,7 @@
             
             ?>            
             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                <button href="../profile.php" class="btn btn-danger">
+                <button href="../loggedin.php" class="btn btn-danger">
                     <i class="bi bi-arrow-left"></i>
                 </button>
 

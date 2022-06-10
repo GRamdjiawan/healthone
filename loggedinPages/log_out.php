@@ -11,13 +11,16 @@
         $users = $db->prepare("SELECT * FROM user WHERE id = :id");
         $users->bindParam("id", $id);
         $users->execute();
-        $data = $users->fetchAll(PDO::FETCH_ASSOC);
-        $admin = $data[0]['rollen'];
+        $data = $users->fetch(PDO::FETCH_ASSOC);
+        $admin = $data['rollen'];
         if($admin == 'admin') {
             $isAdmin = true;
         } else {
             $isAdmin = false;
         }
+
+        $voornaam = $data['firstname'];
+        $achternaam = $data['lastname'];
     } else {
         $_SESSION['failedlLogin'] = true;
         header("Location: ../index.php");

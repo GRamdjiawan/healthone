@@ -6,13 +6,13 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ">
           <li class="nav-item">
-            <a class="nav-link" href="./loggedin.php">SportCenter</a>
+            <a class="nav-link" href="../loggedin.php">SportCenter</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="">SportApparatuur</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../contact.php">Contact</a>
+            <a class="nav-link" href="../contact.php>">Contact</a>
           </li>
 
        
@@ -25,9 +25,9 @@
             <i class="bi bi-person-circle"></i>
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="./loggedin.php"><strong><?php echo $voornaam." ".$achternaam;?></strong></a></li>
-            <li><a class="dropdown-item" href="./profile/profile.php">Profile</a></li>
-            <li><a class="dropdown-item" href="./log_out.php">Uitloggen</a></li>
+            <li><a class="dropdown-item" href="../loggedin.php"><strong><?php echo $voornaam." ".$achternaam;?></strong></a></li>
+            <li><a class="dropdown-item" href="../profile.php">Profile</a></li>
+            <li><a class="dropdown-item" href="../log_out.php">Uitloggen</a></li>
           </ul>
         </li>
 

@@ -60,7 +60,9 @@
             </a>
         </div>
         <?php
-            }  
+            }
+            
+            
             echo "<hr>";
             include_once('../templates/footer.php');
         ?> 
