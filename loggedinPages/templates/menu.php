@@ -9,7 +9,7 @@
             <a class="nav-link" href="./loggedin.php">SportCenter</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">SportApparatuur</a>
+            <a class="nav-link" href="../apparatuur/categorieen.php">SportApparatuur</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="../contact.php">Contact</a>

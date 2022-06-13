@@ -1,15 +1,20 @@
 <?php   
     session_start();
     include_once('../dbConnection.php');
-    
+
     if(isset($_SESSION['loggedIn'])){
-   
+        $id = $_SESSION['loggedIn'];
+        $users = $db->prepare("SELECT * FROM user WHERE id = :id");
+        $users->bindParam("id", $id);
+        $users->execute();
+        $data = $users->fetch(PDO::FETCH_ASSOC);
+        $admin = $data['rollen'];
+        $voornaam = $data['firstname'];
+        $achternaam = $data['lastname'];
     } else {
         $_SESSION['failedlLogin'] = true;
         header("Location: ../index.php");
     }
-    
-    
 ?>
 
 <!DOCTYPE html>
@@ -36,85 +41,77 @@
         <?php
             include_once('../templates/header.php');
             include_once('./templates/menu.php');
-            
-            echo "
-            <div class='row'>
-                <img src='../img/healthone-banner.png' class='img-fluid' alt='Health One'>
-            </div>";
-
-            echo "
-                <div class='row mt-2'>
-                    <div class='path mb-2'>
-                        <a href='#'>Home</a> 
-                        / 
-                        <a href='#'>Contact</a>
-                    </div>
-                </div>
-            ";
         ?> 
-        <div class="row contact">
-            <!-- border border-dark -->
-            <div class=" col-md-6  d-flex justify-content-center align-items-center">
-                <div class="row px-2">
-
-
-                    <a href="#" class="col-md-3 p-5 m-1 border border-dark d-flex flex-column justify-content-center align-items-center" style="color: black; box-shadow: 1px 1px 10px black; text-decoration: none;">
-                        <i class="bi bi-envelope-fill p-1" style="font-size: 3rem; "></i>
-                        E-mail
-                        
-                    </a>
-                    <a href="#" class="col-md-3 p-5 m-1 border border-dark d-flex flex-column justify-content-center align-items-center" style="color: black; box-shadow: 1px 1px 10px black; text-decoration: none;">
-                        <i class="bi bi-telephone-fill p-1" style="font-size: 3rem; "></i>
-                        Bell ons
-                        
-                    </a>
-                    <a href="#" class="col-md-3 p-5 m-1 border border-dark d-flex flex-column justify-content-center align-items-center" style="color: black; box-shadow: 1px 1px 10px black; text-decoration: none;">
-                        <i class="bi bi-bluetooth p-1" style="font-size: 3rem; "></i>
-                        Connect 
-                        
-                    </a>
-                    <a href="#" class="col-md-3 p-5 m-1 border border-dark d-flex flex-column justify-content-center align-items-center" style="color: black; box-shadow: 1px 1px 10px black; text-decoration: none;">
-                        <i class="bi bi-pinterest p-1" style="font-size: 3rem; "></i>
-                        Pintrest
-                        
-                    </a>
-                    <a href="#" class="col-md-3 p-5 m-1 border border-dark d-flex flex-column justify-content-center align-items-center" style="color: black; box-shadow: 1px 1px 10px black; text-decoration: none;">
-                        <i class="bi bi-twitter p-1" style="font-size: 3rem; "></i>
-                        Twitter
-    
-                    </a>
-                    <a href="#" class="col-md-3 p-5 m-1 border border-dark d-flex flex-column justify-content-center align-items-center" style="color: black; box-shadow: 1px 1px 10px black; text-decoration: none;">
-                        <i class="bi bi-linkedin p-1" style="font-size: 3rem; "></i>
-                        Linkedin
-                        
-                    </a>
-                   
-
-                </div>
-                
-
-
-            </div>
             
-            <div class=" col-md-6 d-flex justify-content-center align-items-center">
-                <div class="mapouter">
-                    <div class="gmap_canvas">
-                        <iframe  id="gmap_canvas" 
-                        src="https://maps.google.com/maps?q=tinwerf%2010&t=&z=15&ie=UTF8&iwloc=&output=embed" 
-                        frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
-
-                        </iframe>
-                        <br><style>.mapouter{position:relative;text-align:right;height:100%;width:100%;box-shadow: 1px 1px 10px black;}</style>
-                        <style>.gmap_canvas {background:none!important;height:100%;width:100%;}</style>
-                        <style>#gmap_canvas {height:500px;width:100%;}</style>
-                    </div>
-                </div>
-            </div>
-
-         
-            
+        <div class='row'>
+            <img src='../img/healthone-banner.png' class='img-fluid' alt='Health One'>
         </div>
 
+        <div class='row mt-2'>
+            <div class='path mb-2'>
+                <a href='#'>Home</a> 
+                / 
+                <a href='#'>Contact</a>
+            </div>
+        </div>
+        <div class="row contact">
+        <!-- border border-dark -->
+        <div class=" col-md-6  d-flex justify-content-center align-items-center">
+            <div class="row px-2">
+
+
+                <a href="#" class="col-md-3 p-5 m-1 border border-dark d-flex flex-column justify-content-center align-items-center" style="color: black; box-shadow: 1px 1px 10px black; text-decoration: none;">
+                    <i class="bi bi-envelope-fill p-1" style="font-size: 3rem; "></i>
+                    E-mail
+                    
+                </a>
+                <a href="#" class="col-md-3 p-5 m-1 border border-dark d-flex flex-column justify-content-center align-items-center" style="color: black; box-shadow: 1px 1px 10px black; text-decoration: none;">
+                    <i class="bi bi-telephone-fill p-1" style="font-size: 3rem; "></i>
+                    Bell ons
+                    
+                </a>
+                <a href="#" class="col-md-3 p-5 m-1 border border-dark d-flex flex-column justify-content-center align-items-center" style="color: black; box-shadow: 1px 1px 10px black; text-decoration: none;">
+                    <i class="bi bi-bluetooth p-1" style="font-size: 3rem; "></i>
+                    Connect 
+                    
+                </a>
+                <a href="#" class="col-md-3 p-5 m-1 border border-dark d-flex flex-column justify-content-center align-items-center" style="color: black; box-shadow: 1px 1px 10px black; text-decoration: none;">
+                    <i class="bi bi-pinterest p-1" style="font-size: 3rem; "></i>
+                    Pintrest
+                    
+                </a>
+                <a href="#" class="col-md-3 p-5 m-1 border border-dark d-flex flex-column justify-content-center align-items-center" style="color: black; box-shadow: 1px 1px 10px black; text-decoration: none;">
+                    <i class="bi bi-twitter p-1" style="font-size: 3rem; "></i>
+                    Twitter
+
+                </a>
+                <a href="#" class="col-md-3 p-5 m-1 border border-dark d-flex flex-column justify-content-center align-items-center" style="color: black; box-shadow: 1px 1px 10px black; text-decoration: none;">
+                    <i class="bi bi-linkedin p-1" style="font-size: 3rem; "></i>
+                    Linkedin
+                    
+                </a>
+                
+
+            </div>
+            
+
+
+        </div>
+            
+        <div class=" col-md-6 d-flex justify-content-center align-items-center">
+            <div class="mapouter">
+                <div class="gmap_canvas">
+                    <iframe  id="gmap_canvas" 
+                    src="https://maps.google.com/maps?q=tinwerf%2010&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+
+                    </iframe>
+                    <br><style>.mapouter{position:relative;text-align:right;height:100%;width:100%;box-shadow: 1px 1px 10px black;}</style>
+                    <style>.gmap_canvas {background:none!important;height:100%;width:100%;}</style>
+                    <style>#gmap_canvas {height:500px;width:100%;}</style>
+                </div>
+            </div>
+        </div>
 
         <?php            
             echo "<hr>";

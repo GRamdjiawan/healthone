@@ -1,3 +1,21 @@
+<?php
+    session_start();
+    include_once('../dbConnection.php');
+    
+    if(isset($_SESSION['loggedIn'])) {
+        $id = $_SESSION['loggedIn']; 
+        $user = $db->prepare("SELECT * FROM user WHERE id = :id");
+        $user->bindParam('id', $id);
+        $user->execute();
+        $data = $user->fetch(PDO::FETCH_ASSOC);
+        $voornaam = $data['firstname'];
+        $achternaam = $data['lastname'];
+    } else {
+        $id = '';
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,23 +38,24 @@
 <body>
     <div class='container container-xxl p-3 my-5'>
         <?php
-            include_once('../dbConnection.php');
-
             include_once('../templates/header.php');
-            include_once('../templates/menu.php');
+            if(isset($_SESSION['loggedIn'])){
+                include_once('../templates/loggedInMenuAppratuur.php');
+            } else {
+                include_once('../templates/menu.php');
+            }
             include_once('../templates/banner.php');
+        ?>
+           
+        <div class='row mt-2'>
+            <div class='path mb-2'>
+                <a href='../index.php'>Home</a> 
+                / 
+                <a href='#'>Categorie</a>
+            </div>
+        </div>
 
-            echo "
-                <div class='row mt-2'>
-                    <div class='path mb-2'>
-                        <a href='../index.php'>Home</a> 
-                        / 
-                        <a href='#'>Categorie</a>
-                    </div>
-                </div>
-            ";
-        
-
+        <?php
             echo "<div class='row my-3'>";
 
             $categorie = $db->prepare("SELECT * FROM categorie");

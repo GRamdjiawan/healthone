@@ -12,11 +12,14 @@
         $wachtwoord2 = filter_input(INPUT_POST, "wachtwoord2");
 
         if($wachtwoord1 == $wachtwoord2) {
-            $wachtwoord = $wachtwoord1;
+            $wachtwoord = password_hash($wachtwoord1, PASSWORD_DEFAULT);
             $wachtwoordStatus = true;
+             
         } else {
             $wachtwoordStatus = false;
         }
+
+
 
         $gebruikerBestaat = false;
         $users = $db->prepare("SELECT * FROM user");
@@ -156,11 +159,11 @@
             </div>
             <div class="row mb-3">
                 <div class="form-floating col">
-                    <input type="password" name="wachtwoord1" class="form-control" id="floatingPassword" placeholder="Wachtwoord" value="<?php echo $wachtwoord;?>">
+                    <input type="password" name="wachtwoord1" class="form-control" id="floatingPassword" placeholder="Wachtwoord">
                     <label for="floatingPassword" class="px-3">Wachtwoord</label>
                 </div>  
                 <div class="form-floating col">
-                    <input type="password" name="wachtwoord2" class="form-control" id="floatingPassword" placeholder="Wachtwoord" value="<?php echo $wachtwoord;?>">
+                    <input type="password" name="wachtwoord2" class="form-control" id="floatingPassword" placeholder="Wachtwoord">
                     <label for="floatingPassword" class="px-3">Herhaal uw wachtwoord</label>
                 </div>  
             </div>

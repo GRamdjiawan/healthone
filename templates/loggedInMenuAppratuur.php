@@ -6,13 +6,13 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ">
           <li class="nav-item">
-            <a class="nav-link" href="../loggedin.php">SportCenter</a>
+            <a class="nav-link" href="../loggedinPages/loggedin.php">SportCenter</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../../apparatuur/categorieen.php">SportApparatuur</a>
+            <a class="nav-link" href="./categorieen.php">SportApparatuur</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../contact.php">Contact</a>
+            <a class="nav-link" href="../loggedinPages/contact.php">Contact</a>
           </li>
 
        
@@ -25,9 +25,9 @@
             <i class="bi bi-person-circle"></i>
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="../loggedin.php"><strong><?php echo $voornaam." ".$achternaam;?></strong></a></li>
-            <li><a class="dropdown-item" href="../profile.php">Profile</a></li>
-            <li><a class="dropdown-item" href="../log_out.php">Uitloggen</a></li>
+            <li><a class="dropdown-item" href="../loggedinPages/loggedin.php"><strong><?php echo $voornaam." ".$achternaam;?></strong></a></li>
+            <li><a class="dropdown-item" href="../loggedinPages/profile/profile.php">Profile</a></li>
+            <li><a class="dropdown-item" href="../loggedinPages/log_out.php">Uitloggen</a></li>
           </ul>
         </li>
 

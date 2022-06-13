@@ -1,9 +1,7 @@
 <?php
     session_start();
     include_once('../../dbConnection.php');
-
     $id = $_SESSION['loggedIn'];
-
     if(isset($id)) {
         $user = $db->prepare("SELECT * FROM user WHERE id = :id");
         $user->bindParam('id', $id);
@@ -12,17 +10,50 @@
         $voornaam = $data['firstname'];
         $achternaam = $data['lastname'];
         $myPassword = $data['password'];
-        
-       
+        if(isset($_POST['editPassword'])){
+            $currentPassword = filter_input(INPUT_POST, 'currentPassword', FILTER_SANITIZE_STRING);
+            $newPassword = filter_input(INPUT_POST, 'newPassword', FILTER_SANITIZE_STRING);
+            $repeatNewPassword = filter_input(INPUT_POST, 'repeatNewPassword', FILTER_SANITIZE_STRING);
+            if($currentPassword == ''){
+                $color = 'danger';
+                $status = 'Geen huidig wachtwoord ingevuld';
+            }else if($currentPassword === $myPassword) {
+                if($newPassword == '' || $repeatNewPassword == ''){
+                    $color = 'danger';
+                    $status = 'Geen nieuwe wachtwoorden ingevuld';
+                }else if($newPassword === $repeatNewPassword) {
+                    $updatePasssword = $db->prepare("UPDATE user SET password = :password WHERE id = :id");                                                                                                                       
+                    $updatePasssword->bindParam('id', $id);
+                    $updatePasssword->bindParam('password', $newPassword);
+                    if($updatePasssword->execute()) {
+                        $_SESSION['changePassword'] = true;
+                        header("Location: ./profile.php");
+                    } else {
+                        $currentPassword = '';
+                        $newPassword = '';
+                        $repeatNewPassword = '';
+                        $status = "Er is een fout opgetreden";
+                        $color = "danger";
+                    }
+                } else {
+                    $color = 'danger';
+                    $status = 'Nieuwe wachtwoorden komen niet overeen';
+                }
+            } else {
+                $color = 'danger';
+                $status = 'De huidige wachtwoord klopt niet';
+            }
+        } else {
+            $currentPassword = '';
+            $newPassword = '';
+            $repeatNewPassword = '';
+        }
     } else {
+        
         $_SESSION['failedlLogin'] = true;
         header("Location: ../index.php");
-
     }
-    
-    
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +61,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HealthOne</title>
-
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
@@ -48,19 +78,18 @@
         <form action="" method="post" class="mt-5">
             <div class="row mb-3">
                 <div class="form-floating ">
-                    <input type="email" name="currentPassword" class="form-control" id="floatingInput" placeholder="Huidige Wachtwoord">
+                    <input type="password" name="currentPassword" class="form-control" id="floatingInput" placeholder="Huidige Wachtwoord">
                     <label for="floatingInput" class="px-3">Huidige Wachtwoord</label>
                 </div>
-               
             </div>
             <div class="row my-3">
                 <div class="form-floating col">
-                    <input type="text" name="newPassword" class="form-control" id="floatingInput" placeholder="Nieuw Password">
+                    <input type="password" name="newPassword" class="form-control" id="floatingInput" placeholder="Nieuw Password">
                     <label for="floatingInput" class="px-3">Nieuw Password</label>
                 </div>
 
                 <div class="form-floating col">
-                    <input type="text" name="repeatNewPassword" class="form-control" id="floatingPassword" placeholder="Herhaal Nieuw Wachtwoord">
+                    <input type="password" name="repeatNewPassword" class="form-control" id="floatingPassword" placeholder="Herhaal Nieuw Wachtwoord">
                     <label for="floatingPassword" class="px-3">Herhaal Nieuw Wachtwoord</label>
                 </div>  
             </div>
@@ -76,8 +105,7 @@
             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                 <a href="../loggedin.php" class="btn btn-danger">
                     <i class="bi bi-arrow-left"></i>
-            </a>
-
+                </a>
                 <button type="submit" name="editPassword"class="btn btn-success">
                     <i class="bi bi-pencil-fill"></i>   
                 </button>

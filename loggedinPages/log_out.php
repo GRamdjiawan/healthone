@@ -65,7 +65,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ">
                 <li class="nav-item">
-                    <a class="nav-link" href="./admin/loggedin.php">SportCenter</a>
+                    <a class="nav-link" href="./loggedin.php">SportCenter</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./admin/beheer.php">Beheer</a>
