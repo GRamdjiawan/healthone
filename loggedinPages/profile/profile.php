@@ -91,37 +91,9 @@
 
         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
             <a href="./edit_profile.php" class="btn btn-success">Profile aanpassen</a>
-            <a href="" class="btn btn-danger">Wachtwoord aanpassen</a>
+            <a href="./edit_password.php" class="btn btn-danger">Wachtwoord aanpassen</a>
         </div>
        
-
-        <!-- <form action="" method="post">
-            <div class="row mb-3">
-                <div class="form-floating col">
-                    <input type="text" name="voornaam" class="form-control" id="floatingInput" placeholder="Kees" value="<?php echo $voornaam;?>">
-                    <label for="floatingInput" class="px-3">Voornaam</label>
-                </div>
-                <div class="form-floating col">
-                    <input type="text" name="achternaam" class="form-control" id="floatingPassword" placeholder="de Bakker" value="<?php echo $achternaam;?>">
-                    <label for="floatingPassword" class="px-3">Achternaam</label>
-                </div>  
-
-            </div>
-            <div class="row mb-3">
-                <div class="form-floating col">
-                    <input type="email" name="email" class="form-control" id="floatingInput" placeholder="naam@email.com" value="<?php echo $email;?>">
-                    <label for="floatingInput" class="px-3">E-mailadres</label>
-                </div>
-                <div class="form-floating col">
-                    <input type="password" name="wachtwoord" class="form-control" id="floatingPassword" placeholder="Wachtwoord" value="<?php echo $wachtwoord;?>">
-                    <label for="floatingPassword" class="px-3">Wachtwoord</label>
-                </div>  
-
-            </div>
-            
-            <button type="submit" name="registreer"class="btn btn-primary"></button>
-
-        </form> -->
 
         <?php
           
