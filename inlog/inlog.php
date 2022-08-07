@@ -3,22 +3,25 @@
     include_once('../dbConnection.php');
     if (isset($_POST['login'])) {
         $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
-        $wachtwoord =filter_input(INPUT_POST, "wachtwoord", FILTER_SANITIZE_STRING);
+        $wachtwoord = filter_input(INPUT_POST, "wachtwoord", FILTER_SANITIZE_STRING);
 
-        // hulp nodig bij het ontcijferen 
-        // $wachtwoord = password_hash($wachtwoordInput, PASSWORD_DEFAULT);
-
-        $users = $db->prepare("SELECT * FROM user WHERE email = :email AND password = :password");
-        $users->bindParam("password", $wachtwoord);
+        $users = $db->prepare("SELECT * FROM user WHERE email = :email");
         $users->bindParam("email", $email);
         $users->execute();
         $data = $users->fetch(PDO::FETCH_ASSOC);
+
+        
+        $verifyPassword = password_verify($wachtwoord, $data["password"]);
+
         if (!$data) {
             $gebruikerBestaat = false;
-        }  else {
-            $gebruikerBestaat = true;
+        }  else if ($verifyPassword)  {
             $_SESSION['loggedIn'] = $data['id'];
+            $gebruikerBestaat = true;
+        } else {
+            $gebruikerBestaat = false;
         }
+
         if (($email == '') ||($wachtwoord == ''))  {
             $foutmelding = 'text-danger';
             $gebruikerStatus = 'Geen ingevulde velden';
@@ -30,6 +33,7 @@
             $foutmelding = 'text-danger';
             $gebruikerStatus = 'Gebruiker bestaat niet';
         }
+
     } else {
         $email = '';
         $wachtwoord = '';

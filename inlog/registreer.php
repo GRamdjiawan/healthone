@@ -14,6 +14,7 @@
         if($wachtwoord1 == $wachtwoord2) {
             $wachtwoord = password_hash($wachtwoord1, PASSWORD_DEFAULT);
             $wachtwoordStatus = true;
+            // $wachtwoord = $wachtwoord1;
              
         } else {
             $wachtwoordStatus = false;
