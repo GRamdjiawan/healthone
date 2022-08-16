@@ -101,7 +101,7 @@ CREATE TABLE `user` (
   `firstname` varchar(50) NOT NULL,
   `lastname` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `rollen` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -111,7 +111,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `firstname`, `lastname`, `email`, `password`, `rollen`) VALUES
 
-(4, 'test', 'test', 'test@test.test', 'tesT', 'gebruiker'),
+(4, 'b', 'b', 'b@b.b', 'b', 'gebruiker'),
 (5, 'a', 'a', 'a@a.a', 'a', 'admin');
 
 --
